@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://report.com/lab1/task4/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 4 - Nikiforova Anna K33421</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 4";
+        var mkdocs_page_input_path = "lab1\\task4.md";
+        var mkdocs_page_url = "/lab1/task4/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Nikiforova Anna K33421
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Lab 1</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Task 1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Task 2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Task 3</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Task 4</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task5/">Task 5</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Lab 2</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../lab2/intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../lab2/website/">Functionality</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../lab2/conclusion/">Conclusion</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Nikiforova Anna K33421</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Lab 1</li>
+      <li class="breadcrumb-item active">Task 4</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div><p><strong>Задание:</strong> Реализовать двухпользовательский или многопользовательский чат. Реализация многопользовательского часа позволяет получить максимальное количество баллов.
+Обязательно использовать библиотеку (не отображается в ТЗ).
+Реализовать с помощью протокола TCP – 100% баллов, с помощью UDP – 80%. 
+Обязательно использовать библиотеку threading.
+Для реализации с помощью UDP, thearding использовать для получения сообщений у клиента.
+Для применения с TCP необходимо запускать клиентские подключения, прием и отправку сообщений всем юзерам на сервере в потоках. Не забудьте сохранять юзеров, чтобы потом отправлять им сообщения.</p>
+<p>Мной был реализован многопользовательский чат с помощью протокола TCP.</p>
+<p><strong>Листинг кода сервера:</strong></p>
+<pre><code class="language-python">import socket
+import threading
+from config import HOST, SERVER_PORT, BUFF_SIZE
+
+
+class Server:
+    def __init__(self, server_address):
+        self.clients = {}  # {socket: name}
+
+        self.conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.conn.bind(server_address)
+        self.conn.listen(10)
+        print('Server is listening...')
+
+    def get_messages(self, client_socket):
+        while True:
+            try:
+                message = client_socket.recv(BUFF_SIZE).decode()
+                print(f"Recieved message '{message}' from {self.clients[client_socket]}")
+                if message:
+                    self.broadcast(client_socket, message)
+            except (ConnectionResetError, OSError):
+                name = self.clients[client_socket]
+                print(f"{name} disconnected from chat")
+                self.broadcast(client_socket, f"{name} вышел из чата!", add_name=False)
+                del self.clients[client_socket]
+                break
+
+    def broadcast(self, client_socket, message, add_name=True):
+        name = self.clients[client_socket]
+        for client in self.clients:
+            if client != client_socket:
+                if add_name:
+                    client.sendall(f"{name}: {message}".encode())
+                else:
+                    client.sendall(message.encode())
+
+    def run(self):
+        try:
+            while True:
+                client_socket, addr = self.conn.accept()
+
+                client_socket.sendall("Введите ваше имя на сервере: ".encode('utf-8'))
+                name = client_socket.recv(BUFF_SIZE).decode('utf-8')
+                self.clients[client_socket] = name
+                print(f"{name} added to chat")
+                self.broadcast(client_socket, f"{name} присоединился к чату!", add_name=False)
+
+                threading.Thread(target=self.get_messages, args=(client_socket,)).start()
+        except KeyboardInterrupt:
+            self.broadcast("", f"Чат завершен!", add_name=False)
+            self.clients = {}
+            self.conn.close()
+            print(f"Server stopped")
+
+
+if __name__ == "__main__":
+    server_address = (HOST, SERVER_PORT)
+    server = Server(server_address)
+    server.run()
+</code></pre>
+<p><strong>Листинг кода клиента:</strong></p>
+<pre><code class="language-python">import socket
+import threading
+from config import HOST, SERVER_PORT, BUFF_SIZE
+
+
+class Client:
+    def __init__(self, server_address):
+        self.conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            self.conn.connect(server_address)
+            name_question = self.conn.recv(BUFF_SIZE).decode("utf-8")
+            name = input(name_question)
+            self.name = name
+            self.conn.sendall(name.encode('utf-8'))
+            print(f"Вы присоединились к чату как {self.name}")
+
+            threading.Thread(target=self.send_messages, args=()).start()
+            threading.Thread(target=self.recieve_messages(), args=()).start()
+        except ConnectionRefusedError:
+            print("Сервер недоступен, попробуйте позже")
+
+    def send_messages(self):
+        while True:
+            try:
+                message = input()
+                self.conn.sendall(message.encode("utf-8"))
+            except (OSError, EOFError):
+                break
+
+    def recieve_messages(self):
+        while True:
+            try:
+                message = self.conn.recv(BUFF_SIZE)
+                if not message:
+                    break
+                print(message.decode("utf-8"))
+            except (OSError, EOFError):
+                break
+
+
+if __name__ == "__main__":
+    server_address = (HOST, SERVER_PORT)
+    client = Client(server_address)
+</code></pre>
+<p><strong>Скринкаст:</strong></p>
+<p>Клиент-серверное взаимодействие:
+<img alt="" src="../static/task4.png"></p></div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../task3/" class="btn btn-neutral float-left" title="Task 3"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../task5/" class="btn btn-neutral float-right" title="Task 5">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../task3/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../task5/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

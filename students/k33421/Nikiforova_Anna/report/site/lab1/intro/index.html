@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://report.com/lab1/intro/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Intro - Nikiforova Anna K33421</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Intro";
+        var mkdocs_page_input_path = "lab1\\intro.md";
+        var mkdocs_page_url = "/lab1/intro/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Nikiforova Anna K33421
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Lab 1</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Task 1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Task 2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Task 3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Task 4</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task5/">Task 5</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Lab 2</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../lab2/intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../lab2/website/">Functionality</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../lab2/conclusion/">Conclusion</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Nikiforova Anna K33421</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Lab 1</li>
+      <li class="breadcrumb-item active">Intro</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div><p><strong>Цель:</strong> овладеть практическими навыками и умениями реализации web-серверов и
+использования сокетов.</p>
+<p><strong>Оборудование:</strong> компьютерный класс.</p>
+<p><strong>Программное обеспечение:</strong> Python 2.7-3.6, библиотеки Python: sys, socket.</p>
+<p><strong>Рассматриваемые теоретические аспекты</strong>: клиент-сервеное взаимодействие; модель TCP/IP; протокол HTTP; структура HTTP-запроса; сокеты.</p>
+<p><strong>Ход работы:</strong> с информацией по выполнению каждого задания можно ознакомиться в соответствующих вкладках текущего отчета. Примечание: папки с заданиями 1-4 содержат файл config.py, содержимое которого выглядит следующим образом:</p>
+<pre><code class="language-python">HOST = '127.0.0.1'
+SERVER_PORT = 14900
+BUFF_SIZE = 16384
+</code></pre>
+<p>Данный файл нужен, чтобы не дублировать код на стороне клиента или сервера при создании подключения.</p>
+<p><strong>Выводы:</strong> в рамках данной лабораторной работы мной было изучено клиент-серверное взаимодействие. Общение клиента и сервера было реализовано с помощью протоколов UDP и TCP средствами языка программирования Python 3.10 и библиотеки socket. </p>
+<p>Также был изучен протокол HTTP и структура HTTP-запросов, был реализован сервер, обрабатывающий GET и POST запросы. </p>
+<p>Помимо этого, была изучена библиотека threading, позволяющая исполнять многопоточный код на Python. Возможности библиотеки были использованы для создания многопользовательского чата (один сервер и много клиентов).</p>
+<p>Также в процессе выполнения работы пришло понимание, что такое ghost-процессы в системе и как их прерывать; была совершена относительно успешная попытка разобраться с библиотекой socketserver (файлы не приложены к отчету, так как задача решилась проще без использования данной библиотеки); немного вспомнились HTML, JavaScript и CSS; на начальном уровне был освоен инструмент mkdocs.</p>
+<p>Цель работы, состоявшая в овладении практическими навыками и умениями реализации web-серверов и использования сокетов, достигнута. </p></div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../.." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../task1/" class="btn btn-neutral float-right" title="Task 1">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../.." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../task1/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

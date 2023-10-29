@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://report.com/lab1/task5/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Task 5 - Nikiforova Anna K33421</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Task 5";
+        var mkdocs_page_input_path = "lab1\\task5.md";
+        var mkdocs_page_url = "/lab1/task5/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Nikiforova Anna K33421
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Lab 1</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task1/">Task 1</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task2/">Task 2</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task3/">Task 3</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../task4/">Task 4</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Task 5</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Lab 2</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../lab2/intro/">Intro</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../lab2/website/">Functionality</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../lab2/conclusion/">Conclusion</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Nikiforova Anna K33421</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Lab 1</li>
+      <li class="breadcrumb-item active">Task 5</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div><p><strong>Задание:</strong> необходимо написать простой web-сервер для обработки GET и POST http
+запросов средствами Python и библиотеки socket.</p>
+<p>Базовый класс для простейшей реализации web-сервера доступен
+https://docs.google.com/document/d/1lv_3D9VtMxz8tNkA6rA1xu9zaWEIBGXiLWBo1cse-
+0k/edit?usp=sharing</p>
+<p>Подробный мануал по работе доступен https://iximiuz.com/ru/posts/writing-python-web-server-part-3/</p>
+<p>Задание: сделать сервер, который может:</p>
+<ul>
+<li>
+<p>Принять и записать информацию о дисциплине и оценке по дисциплине.</p>
+</li>
+<li>
+<p>Отдать информацию обо всех оценах по дсициплине в виде html-страницы.</p>
+</li>
+</ul>
+<p>Мой код в данном задании по большей части представляет собой копипаст кода из приведенного выше мануала с некоторыми дополнениями.</p>
+<p><strong>Листинг кода сервера:</strong></p>
+<pre><code class="language-python">import socket
+from email.parser import Parser
+from functools import lru_cache
+from urllib.parse import parse_qs, urlparse
+
+HOST = '127.0.0.1'
+SERVER_PORT = 14900
+
+MAX_LINE = 64 * 1024
+MAX_HEADERS = 100
+
+HTML_STYLE = """
+&lt;style&gt;
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        text-align: center;
+        padding: 100px;
+    }
+    h1 {
+        color: #333;
+    }
+    p {
+        color: #666;
+        font-size: 30px;
+    }
+&lt;/style&gt;
+"""
+
+
+class Request:
+    def __init__(self, method, target, version, headers, rfile):
+        self.method = method
+        self.target = target
+        self.version = version
+        self.headers = headers
+        self.rfile = rfile
+
+    @property
+    def path(self):
+        return self.url.path
+
+    @property
+    def body(self):
+        size = self.headers.get('Content-Length')
+        if not size:
+            return None
+        content = self.rfile.read(int(size))
+        return content.decode('utf-8')
+
+    @property
+    @lru_cache(maxsize=None)
+    def url(self):
+        return urlparse(self.target)
+
+    @property
+    @lru_cache(maxsize=None)
+    def query(self):
+        return parse_qs(self.url.query)
+
+    @property
+    @lru_cache(maxsize=None)
+    def query_body(self):
+        return parse_qs(self.body)
+
+
+class Response:
+    def __init__(self, status, reason, headers=None, body=None):
+        self.status = status
+        self.reason = reason
+        self.headers = headers
+        self.body = body
+
+
+class MyHTTPServer:
+    def __init__(self, server_address):
+        self.server_address = server_address
+        self.conn = None
+        self.grades = {}  # {subject: [grades]}
+
+    def serve_forever(self):
+        server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            server_sock.bind(self.server_address)
+            server_sock.listen(10)
+            print("Server is listening...")
+            while True:
+                client_socket, _ = server_sock.accept()
+                try:
+                    self.serve_client(client_socket)
+                except Exception as e:
+                    print('Connection failed', e)
+        finally:
+            server_sock.close()
+            print("Server stopped")
+
+    def serve_client(self, conn):
+        try:
+            req = self.parse_request(conn)
+            response = self.handle_request(req)
+            self.send_response(conn, response)
+        except ConnectionResetError:
+            conn = None
+        except Exception as e:
+            print("Error", e)
+        if conn:
+            conn.close()
+
+    def parse_request(self, conn):
+        rfile = conn.makefile('rb')
+        raw = rfile.readline(MAX_LINE + 1)
+        if len(raw) &gt; MAX_LINE:
+            raise Exception('Request line is too long')
+
+        req_line = str(raw, 'iso-8859-1')
+        req_line = req_line.rstrip('\r\n')
+        words = req_line.split()
+        if len(words) != 3:
+            raise Exception('Malformed request line')
+
+        method, target, version = words
+        if version != 'HTTP/1.1':
+            raise Exception('Unexpected HTTP version')
+
+        headers = self.parse_headers(rfile)
+
+        host = headers.get('Host')
+        if not host:
+            raise Exception('Bad request')
+
+        return Request(method, target, version, headers, rfile)
+
+    @staticmethod
+    def parse_headers(rfile):
+        headers = []
+
+        while True:
+            line = rfile.readline(MAX_LINE + 1)
+            if len(line) &gt; MAX_LINE:
+                raise Exception('Header line is too long')
+
+            if line in (b'\r\n', b'\n', b''):
+                break
+
+            headers.append(line)
+            if len(headers) &gt; MAX_HEADERS:
+                raise Exception('Too many headers')
+
+        sheaders = b''.join(headers).decode('iso-8859-1')
+        return Parser().parsestr(sheaders)
+
+    def handle_request(self, req):
+        if req.path == '/' and req.method == 'POST':
+            return self.handle_post(req)
+        if req.method == 'GET':
+            if req.path == '/add_grade':
+                body = """&lt;!DOCTYPE html&gt;
+                        &lt;html lang="ru"&gt;""" + HTML_STYLE + """
+                        &lt;head&gt;
+                            &lt;meta charset="UTF-8"&gt;
+                            &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+                        &lt;/head&gt;
+                        &lt;script&gt;
+                            function validateGrade() {
+                                const gradeInput = document.getElementById("grade");
+                                const gradeValue = parseInt(gradeInput.value);
+
+                                if (isNaN(gradeValue) || gradeValue &lt; 1 || gradeValue &gt; 5) {
+                                    alert("Оценка должна быть в диапазоне от 1 до 5");
+                                    return false; 
+                                }
+
+                                return true;
+                            }
+                        &lt;/script&gt;
+                        &lt;body&gt;
+                            &lt;h2&gt;Введите оценку по предмету&lt;/h2&gt;
+                            &lt;p&gt;
+                                &lt;form method="POST" action="/" onsubmit="return validateGrade()"&gt;
+                                    &lt;input type="text" id="subject" name="subject" placeholder="Предмет"&gt;
+                                    &lt;input type="text" id="grade" name="grade" placeholder="Оценка"&gt;
+                                    &lt;input type="submit" value="Отправить"&gt;
+                                &lt;/form&gt;
+                            &lt;/p&gt;
+                            &lt;form action="/"&gt;
+                                &lt;input type="submit" value="На главную"/&gt;
+                            &lt;/form&gt;
+                        &lt;/body&gt;
+                        """
+                return self.handle_get(body)
+            elif req.path == '/':
+                return self.handle_get()
+        content = """&lt;!DOCTYPE html&gt;
+                &lt;html lang="ru"&gt;""" + HTML_STYLE + """
+                &lt;body&gt;
+                    &lt;h2&gt;Такой страницы нет :(&lt;/h2&gt;
+                    &lt;form action="/"&gt;
+                        &lt;input type="submit" value="На главную"/&gt;
+                    &lt;/form&gt;
+                &lt;/body&gt;
+                &lt;/html&gt;
+                """
+        return self.handle_get(content)
+
+    def handle_get(self, body=None):
+        content_type = 'text/html; charset=utf-8'
+        if body is None:
+            body = """
+                &lt;!DOCTYPE html&gt;
+                &lt;html lang="ru"&gt;""" + HTML_STYLE + """
+                &lt;head&gt;
+                    &lt;meta charset="UTF-8"&gt;
+                    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+                &lt;/head&gt;
+                &lt;body&gt;
+                    &lt;h2&gt;Ваши оценки&lt;/h2&gt;
+                    &lt;table style="border-collapse: collapse; width: 70%;" align="center"&gt;
+                        &lt;tr&gt;
+                            &lt;th style="border: 1px solid black; padding: 4px;"&gt;Предмет&lt;/th&gt;
+                            &lt;th style="border: 1px solid black; padding: 4px;"&gt;Оценка&lt;/th&gt;
+                        &lt;/tr&gt;
+                """
+            for subject, grades in self.grades.items():
+                for grade in grades:
+                    body += f"""
+                            &lt;tr&gt;
+                                &lt;td style="border: 1px solid black; padding: 4px;"&gt;{subject}&lt;/td&gt;
+                                &lt;td style="border: 1px solid black; padding: 4px;"&gt;{grade}&lt;/td&gt;
+                            &lt;/tr&gt;
+                        """
+
+            body += """
+                    &lt;/table&gt;
+                    &lt;form action="/add_grade" style="padding: 10px;"&gt;
+                        &lt;input type="submit" value="Добавить"/&gt;
+                    &lt;/form&gt;
+                &lt;/body&gt;
+                &lt;/html&gt;
+                """
+
+        body = body.encode('utf-8')
+        headers = [('Content-Type', content_type),
+                   ('Content-Length', len(body))]
+        return Response(200, 'OK', headers, body)
+
+    def handle_post(self, req):
+        subject = req.query_body['subject'][0]
+        grade = req.query_body['grade'][0]
+        try:
+            self.grades[subject].append(grade)
+        except KeyError:
+            self.grades[subject] = [grade]
+        return self.handle_get()
+
+    @staticmethod
+    def send_response(conn, resp):
+        wfile = conn.makefile('wb')
+        status_line = f'HTTP/1.1 {resp.status} {resp.reason}\r\n'
+        wfile.write(status_line.encode('iso-8859-1'))
+
+        if resp.headers:
+            for (key, value) in resp.headers:
+                header_line = f'{key}: {value}\r\n'
+                wfile.write(header_line.encode('iso-8859-1'))
+
+        wfile.write(b'\r\n')
+
+        if resp.body:
+            wfile.write(resp.body)
+
+        wfile.flush()
+        wfile.close()
+
+
+if __name__ == '__main__':
+    server_address = (HOST, SERVER_PORT)
+    my_server = MyHTTPServer(server_address)
+    my_server.serve_forever()
+</code></pre>
+<p><strong>Скринкаст:</strong></p>
+<p>Стартовая страница:
+<img alt="" src="../static/task51.png">
+Страница добавления оценки:
+<img alt="" src="../static/task52.png">
+Добавление некорректной оценки:
+<img alt="" src="../static/task53.png">
+После добавления корректной оценки:
+<img alt="" src="../static/task54.png">
+Чуть больше оценок:
+<img alt="" src="../static/task55.png">
+Несуществующая страница:
+<img alt="" src="../static/task56.png"></p></div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../task4/" class="btn btn-neutral float-left" title="Task 4"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../lab2/intro/" class="btn btn-neutral float-right" title="Intro">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../task4/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../lab2/intro/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

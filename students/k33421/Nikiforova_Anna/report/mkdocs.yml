@@ -43,7 +43,7 @@ plugins:
 nav:
   - Home: index.md
   - Lab 1:
-      - Introduction: lab1/intro.md
+      - Intro: lab1/intro.md
       - Task 1: lab1/task1.md
       - Task 2: lab1/task2.md
       - Task 3: lab1/task3.md
@@ -53,3 +53,6 @@ nav:
     - Intro: lab2/intro.md
     - Functionality: lab2/website.md
     - Conclusion: lab2/conclusion.md
+  - Practice 3.1:
+      - Intro: practice3/intro.md
+      - Practice: practice3/done.md

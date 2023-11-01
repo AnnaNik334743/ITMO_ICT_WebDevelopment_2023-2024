@@ -1,7 +1,7 @@
 **Задание 1**
 
 Выполнять задание было решено с помощью скрипта на Python. ля того, чтобы скрипт запустился, его необходимо расположить в корне проекта рядом с manage.py, а также прописать settings  переменную среды.
-\
+
 Скрипт:
 ```python
 import os
@@ -124,23 +124,23 @@ if __name__ == '__main__':
 ```
 
 Содержимое базы после выполнения кода:
-\
+
 Автомобиль
 ![](static/cars.png)
-\
+
 Автовладелец
 ![](static/drivers.png)
-\
+
 Водительское_удостоверение
 ![](static/licences.png)
-\
+
 Владение
 ![](static/ownerships.png)
 
 **Задание 2**
 
 Введение необходимых related_names (models.py):
-\
+
 ```python
 class Driver(AbstractUser):
     …
@@ -163,11 +163,11 @@ class Ownership(models.Model):
     …
 ```
 Выполнение:
-\
+
 ![](static/task2.png)
 
 **Задание 3**
-\
+
 Выполнение:
-\
+
 ![](static/task3.png)

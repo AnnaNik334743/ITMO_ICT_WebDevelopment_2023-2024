@@ -643,9 +643,8 @@
   <h1>Practice</h1>
 
 <div><p><strong>Задание 1</strong></p>
-<p>Выполнять задание было решено с помощью скрипта на Python. ля того, чтобы скрипт запустился, его необходимо расположить в корне проекта рядом с manage.py, а также прописать settings  переменную среды.
-\
-Скрипт:
+<p>Выполнять задание было решено с помощью скрипта на Python. ля того, чтобы скрипт запустился, его необходимо расположить в корне проекта рядом с manage.py, а также прописать settings  переменную среды.</p>
+<p>Скрипт:
 </p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">os</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">import</span> <span class="nn">django</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
@@ -764,23 +763,18 @@
 <a id="__codelineno-0-116" name="__codelineno-0-116" href="#__codelineno-0-116"></a>
 <a id="__codelineno-0-117" name="__codelineno-0-117" href="#__codelineno-0-117"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Done!"</span><span class="p">)</span>
 </code></pre></div>
-<p>Содержимое базы после выполнения кода:
-\
-Автомобиль
-<img alt="" src="../static/cars.png">
-\
-Автовладелец
-<img alt="" src="../static/drivers.png">
-\
-Водительское_удостоверение
-<img alt="" src="../static/licences.png">
-\
-Владение
+<p>Содержимое базы после выполнения кода:</p>
+<p>Автомобиль
+<img alt="" src="../static/cars.png"></p>
+<p>Автовладелец
+<img alt="" src="../static/drivers.png"></p>
+<p>Водительское_удостоверение
+<img alt="" src="../static/licences.png"></p>
+<p>Владение
 <img alt="" src="../static/ownerships.png"></p>
 <p><strong>Задание 2</strong></p>
-<p>Введение необходимых related_names (models.py):
-\
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span> <span class="nc">Driver</span><span class="p">(</span><span class="n">AbstractUser</span><span class="p">):</span>
+<p>Введение необходимых related_names (models.py):</p>
+<p></p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span> <span class="nc">Driver</span><span class="p">(</span><span class="n">AbstractUser</span><span class="p">):</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="err">…</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">cars</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">'Car'</span><span class="p">,</span> <span class="n">through</span><span class="o">=</span><span class="s1">'Ownership'</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">'owners'</span><span class="p">)</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
@@ -801,13 +795,10 @@
 <a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    <span class="err">…</span>
 </code></pre></div>
 Выполнение:
-\
-<img alt="" src="../static/task2.png">
-<p><strong>Задание 3</strong>
-\
-Выполнение:
-\
-<img alt="" src="../static/task3.png"></p></div>
+<p><img alt="" src="../static/task2.png"></p>
+<p><strong>Задание 3</strong></p>
+<p>Выполнение:</p>
+<p><img alt="" src="../static/task3.png"></p></div>
 
 
 

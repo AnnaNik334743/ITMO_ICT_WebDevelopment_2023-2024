@@ -171,3 +171,6 @@ class Ownership(models.Model):
 Выполнение:
 
 ![](static/task3.png)
+![](static/task3_1.png)
+![](static/task3_2.png)
+![](static/task3_3.png)

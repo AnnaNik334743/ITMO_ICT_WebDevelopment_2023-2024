@@ -56,3 +56,11 @@ nav:
   - Practice 3.1:
       - Intro: practice3/intro.md
       - Practice: practice3/done.md
+  - Lab 3:
+      - ТЗ: lab3/intro.md
+      - Описание ПО: lab3/description.md
+      - Models: lab3/models.md
+      - Админская часть: lab3/admin.md
+      - URLs: lab3/urls.md
+      - djoser: lab3/djoser.md
+      - Выводы: lab3/conclusion.md
